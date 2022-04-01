@@ -1,0 +1,14 @@
+{
+  "name": "logseq-deadline-countdown",
+  "version": "0.0.1",
+  "author": "xxchan",
+  "main": "index.html",
+  "description": "Counts how many days left until the deadline.",
+  "license": "MIT",
+  "devDependencies": {
+    "@logseq/libs": "^0.0.1-alpha.29"
+  },
+  "logseq": {
+    "id": "_logseq_deadline_countdown"
+  }
+}

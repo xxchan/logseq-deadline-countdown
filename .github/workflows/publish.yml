@@ -18,6 +18,8 @@ jobs:
       - name: Create zip
         run: |
           zip ${{ env.PLUGIN_NAME }}.zip index.html index.js
+          ls
+          echo "::set-output name=tag_name::$(git tag --sort version:refname | tail -n 1)"
       - name: Create Release
         uses: ncipollo/release-action@v1
         id: create_release

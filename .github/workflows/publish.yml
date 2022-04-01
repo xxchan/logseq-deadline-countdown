@@ -16,6 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Create zip
+        id: build
         run: |
           zip ${{ env.PLUGIN_NAME }}.zip index.html index.js
           ls

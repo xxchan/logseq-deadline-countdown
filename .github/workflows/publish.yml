@@ -18,7 +18,7 @@ jobs:
       - name: Create zip
         id: build
         run: |
-          zip ${{ env.PLUGIN_NAME }}.zip index.html index.js
+          zip ${{ env.PLUGIN_NAME }}.zip index.html index.js package.json
           ls
           echo "::set-output name=tag_name::$(git tag --sort version:refname | tail -n 1)"
       - name: Create Release

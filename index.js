@@ -18,7 +18,7 @@ const SETTINGS_SCHEMA = [
     type: 'enum',
     title: 'Minimum interval',
     enumPicker: 'select',
-    enumChoices: ['weeks', 'days', 'hours', 'minutes', 'seconds'],
+    enumChoices: ['days', 'hours', 'minutes', 'seconds'],
     description: 'If set to hours, the annotation will only be added if the interval is at least an hour. Note: Annotations are only generated when the page loads and do not update in real time.',
     default: 'hours',
   },
@@ -26,7 +26,6 @@ const SETTINGS_SCHEMA = [
 
 
 const INTERVALS = [
-  ['w', 86400 * 7],
   ['d', 86400],
   ['h', 3600],
   ['m', 60],

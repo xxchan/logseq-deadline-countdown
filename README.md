@@ -24,3 +24,5 @@ By the way, here's a query to collect all deadlines within a range in case you n
 }
 #+END_QUERY
 ```
+
+This plugin is intended to be minimal. For advanced features like automatic updating (timer), you may take a look at [logseq-plugin-interval-hints](https://github.com/KerfuffleV2/logseq-plugin-interval-hints).

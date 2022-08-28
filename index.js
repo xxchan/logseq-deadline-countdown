@@ -85,9 +85,9 @@ function renderCountdown(el) {
   const timePart = timeTextParts[2] && !isNaN(timeTextParts[2][0]) ? timeTextParts[2] : '';
   const then = new Date(timeTextParts[0].concat(' ', timePart));
 
-  const prettyDiff = prettyDiff(then, now, cfgMinInterval);
-  if (prettyDiff === '') return;
-  time.textContent = `${timeText} (${then >= now ? 'in' : 'past'} ${prettyDiff})`;
+  const diff = prettyDiff(then, now, cfgMinInterval);
+  if (diff === '') return;
+  time.textContent = `${timeText} (${then >= now ? 'in' : 'past'} ${diff})`;
 }
 
 function tests() {

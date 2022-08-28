@@ -1,6 +1,6 @@
 {
   "name": "logseq-deadline-countdown",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "author": "xxchan",
   "main": "index.html",
   "description": "Counts how many days left until the deadline.",

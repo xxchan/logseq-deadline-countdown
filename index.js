@@ -64,16 +64,18 @@ function prettyDiff(then, now, minInterval) {
   if (then < now && !cfgShowPast) return;
   if (then > now && !cfgShowFuture) return;
 
-  // When "Minimum Interval" option is set to "days", 
-  // diff should be calculated by date difference, 
-  // ignoring hours.
+  let diff;
   if (minInterval == INTERVALS_LOOKUP['d']) {
-    now.setHours(12, 0, 0)
-    then.setHours(12, 0, 0)
+    // When "Minimum Interval" option is set to "days", 
+    // diff should be calculated by date difference,
+    // ignoring hours.
+    const diffDays = Math.round(Math.abs(then.setHours(12) - now.setHours(12)) / 8.64e7);
+    diff = `${diffDays}d`;
+  } else {
+    diff = prettyTimeDifference(Math.floor(Math.abs(then - now) / 1000), minInterval);
   }
 
-  const diff = Math.floor(Math.abs(then - now) / 1000);
-  return prettyTimeDifference(diff, minInterval);
+  return diff;
 }
 
 function renderCountdown(el) {

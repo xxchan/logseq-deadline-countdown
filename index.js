@@ -60,22 +60,58 @@ function prettyTimeDifference(sec, minSec) {
   return result.join(' ');
 }
 
+function prettyDiff(then, now, minInterval) {
+  if (then < now && !cfgShowPast) return;
+  if (then > now && !cfgShowFuture) return;
+
+  // When "Minimum Interval" option is set to "days", 
+  // diff should be calculated by date difference, 
+  // ignoring hours.
+  if (minInterval == INTERVALS_LOOKUP['d']) {
+    now.setHours(12, 0, 0)
+    then.setHours(12, 0, 0)
+  }
+
+  const diff = Math.floor(Math.abs(then - now) / 1000);
+  return prettyTimeDifference(diff, minInterval);
+}
 
 function renderCountdown(el) {
   const time = el.querySelector("time");
   if (!time) return;
+  // timeText is like: 2022-08-28 Sun 13:25
   const timeText = time.textContent, now = new Date();
   const timeTextParts = timeText.split(' ');
   const timePart = timeTextParts[2] && !isNaN(timeTextParts[2][0]) ? timeTextParts[2] : '';
   const then = new Date(timeTextParts[0].concat(' ', timePart));
-  if (then < now && !cfgShowPast) return;
-  if (then > now && !cfgShowFuture) return;
-  const diff = Math.floor(Math.abs(then - now) / 1000);
-  const prettyDiff = prettyTimeDifference(diff, cfgMinInterval);
+
+  const prettyDiff = prettyDiff(then, now, cfgMinInterval);
   if (prettyDiff === '') return;
   time.textContent = `${timeText} (${then >= now ? 'in' : 'past'} ${prettyDiff})`;
 }
 
+function tests() {
+  function assertEq(expected, actual) {
+    if (!(expected === actual)) {
+      console.error(`expected: ${expected}, actual: ${actual}`);
+    }
+  }
+
+  assertEq("1d", prettyDiff(new Date("2022-08-28 23:59"), new Date("2022-08-29 00:00"), INTERVALS_LOOKUP['d']));
+  assertEq("", prettyDiff(new Date("2022-08-28 23:59"), new Date("2022-08-29 00:00"), INTERVALS_LOOKUP['h']));
+
+  assertEq("1d", prettyDiff(new Date("2022-08-28 00:00"), new Date("2022-08-29 23:59"), INTERVALS_LOOKUP['d']));
+  assertEq("1d 23h", prettyDiff(new Date("2022-08-28 00:00"), new Date("2022-08-29 23:59"), INTERVALS_LOOKUP['h']));
+
+  assertEq("2d", prettyDiff(new Date("2022-08-28 12:00"), new Date("2022-08-30 11:00"), INTERVALS_LOOKUP['d']));
+  assertEq("1d 23h", prettyDiff(new Date("2022-08-28 12:00"), new Date("2022-08-30 11:00"), INTERVALS_LOOKUP['h']));
+
+  assertEq("", prettyDiff(new Date("2022-08-29 00:00"), new Date("2022-08-29 23:59"), INTERVALS_LOOKUP['d']));
+  assertEq("23h", prettyDiff(new Date("2022-08-29 00:00"), new Date("2022-08-29 23:59"), INTERVALS_LOOKUP['h']));
+}
+
+// uncomment to test
+// tests()
 
 async function main() {
   logseq.onSettingsChanged(settingsHandler);

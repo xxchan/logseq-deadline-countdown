@@ -89,7 +89,11 @@ function renderCountdown(el) {
 
   const diff = prettyDiff(then, now, cfgMinInterval);
   if (diff === '') return;
-  time.textContent = `${timeText} (${then >= now ? 'in' : 'past'} ${diff})`;
+  if (diff === '0d') {
+    time.textContent = `${timeText} (today)`;
+  } else {
+    time.textContent = `${timeText} (${then >= now ? 'in' : 'past'} ${diff})`;
+  }
 }
 
 function tests() {
